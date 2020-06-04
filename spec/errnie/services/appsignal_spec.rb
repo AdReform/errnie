@@ -4,13 +4,13 @@ require 'errnie/services/appsignal'
 RSpec.describe Errnie::Services::Appsignal do
   describe '#notify' do
     let(:error)    { StandardError.new('testing 123') }
-    let(:options)  { {} }
-    let!(:service) { described_class.new(error, options) }
+    let(:metadata) { { key: :value } }
+    let!(:service) { described_class.new(error, metadata: metadata) }
 
     subject { service.notify }
 
     it 'notifies via Appsignal' do
-      expect(::Appsignal).to receive(:send_error).with(error, options)
+      expect(::Appsignal).to receive(:send_error).with(error, metadata)
       subject
     end
   end

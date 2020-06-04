@@ -4,18 +4,18 @@ require 'errnie/errors'
 require 'errnie/services/base'
 
 class Errnie
-  def self.notify(exception_or_error_message, options={}, &block)
-    service = options.delete(:service) || configuration.default_service
-    new(service).notify(exception_or_error_message, options={}, &block)
+  def self.notify(exception_or_error_message, service: nil, metadata: {}, service_options: {}, &block)
+    service = service || configuration.default_service
+    new(service).notify(exception_or_error_message, metadata: metadata, service_options: service_options, &block)
   end
 
-  def initialize(service=default_service)
+  def initialize(service)
     @service = service
     @adapter_klass = adapter_for_service
   end
 
-  def notify(exception_or_error_message, options={}, &block)
-    adapter = @adapter_klass.new(exception_or_error_message, options)
+  def notify(exception_or_error_message, metadata: {}, service_options: {}, &block)
+    adapter = @adapter_klass.new(exception_or_error_message, metadata: metadata, service_options: service_options)
     adapter.notify(&block)
   end
 

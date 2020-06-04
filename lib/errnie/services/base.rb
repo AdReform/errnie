@@ -1,9 +1,10 @@
 class Errnie
   module Services
     class Base
-      def initialize(exception_or_error_message, raw_options={})
+      def initialize(exception_or_error_message, metadata: {}, service_options: {})
         @exception_or_error_message = exception_or_error_message
-        @raw_options = raw_options
+        @metadata = metadata
+        @service_options = service_options
       end
 
       def notify

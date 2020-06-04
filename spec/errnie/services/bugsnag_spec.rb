@@ -4,8 +4,8 @@ require 'errnie/services/bugsnag'
 RSpec.describe Errnie::Services::Bugsnag do
   describe '#notify' do
     let(:error)    { StandardError.new('testing 123') }
-    let(:options)  { {} }
-    let!(:service) { described_class.new(error, options) }
+    let(:metadata) { { key: :value } }
+    let!(:service) { described_class.new(error, metadata: metadata) }
 
     subject { service.notify }
 

@@ -7,15 +7,11 @@ class Errnie
   module Services
     class Appsignal < Base
       def notify(&block)
-        ::Appsignal.send_error(error, options, &block)
+        ::Appsignal.send_error(error, @metadata, &block)
       end
 
       def error
         @error ||= klassify_error
-      end
-
-      def options
-        @raw_options
       end
 
       private

@@ -39,23 +39,38 @@ rescue => e
 end
 ```
 
-You can also pass options and a block, which will get passed to the underlying service adapter:
+You can also pass `metadata`, `service_options`, and a block:
 
 ```ruby
-# Adding Bugsnag metadata with a block
-Errnie.notify(e) do |notification|
-  notification.add_tab(:user, user.to_h)
-end
+# Passing metadata (used for contextual info about the error)
+#
+# for Bugsnag, this will be added as a new tab called `metadata`, unless
+# you pass your own block, in which case `metadata` will be ignored
+#
+# for Appsignal, this will get passed in as tags
+Errnie.notify(e, metadata: { user_id: 1 })
 
-# Adding Appsignal tags + block settings
-Errnie.notify(e, user_id: '123') do |notification|
-  notification.set_action("my_action")
-  notification.set_namespace("my_namespace")
-  notification.params = { :time => Time.now.utc }
+# Passing service_options
+# which get passed to the underlying adapter
+#
+# In this example, this is a Bugsnag client option
+Errnie.notify(e, service_options: { auto_notify: true })
+
+# Passing a block
+Errnie.notify(e, metadata: { user_id: '123' }) do |notification|
+  # Bugsnag-specific syntax
+  #
+  # notification.add_tab(:some_tab, { with: :data })
+
+  # Appsignal-specific syntax
+  #
+  # notification.set_action("my_action")
+  # notification.set_namespace("my_namespace")
+  # notification.params = { :time => Time.now.utc }
 end
 ```
 
-Methods available on the block argument are specific to the underlying service's gem. Refer to the service gem's documentation for more on what's available in the block
+Blocks get passed along to the underlying service's gem. Refer to the service gem's documentation for more on what's available to you.
 
 ## Development
 

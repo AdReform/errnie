@@ -1,8 +1,15 @@
 #!/usr/bin/env bash
-set -euo pipefail
-IFS=$'\n\t'
-set -vx
+BUNDLER_EXISTS=$(gem list -i bundler)
+if [ "$BUNDLER_EXISTS" = true ] ; then
+  set -euo pipefail
+  IFS=$'\n\t'
+  set -vx
 
-bundle install
+  bundle install
+else
+  RED='\033[0;31m'
+  printf "${CLEAR_LINE}${RED} Ensure that gem bundler is installed.\n"
+  printf "${CLEAR_LINE}${RED} Try the following command: 'gem install bundler'\n"
+fi
 
 # Do any other automated setup that you need to do here

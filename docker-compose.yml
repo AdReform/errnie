@@ -1,0 +1,34 @@
+version: '2.4'
+
+x-app: &app
+  build:
+    context: .dockerdev
+    dockerfile: Dockerfile
+    args:
+      RUBY_VERSION: '2.5.5'
+      BUNDLER_VERSION: '2.2.11'
+  environment: &env
+    RUBY_ENV: ${RUBY_ENV:-development}
+  image: errnie-dev:0.1.0
+  tmpfs:
+    - /tmp
+
+x-backend: &backend
+  <<: *app
+  stdin_open: true
+  tty: true
+  volumes:
+    - .:/app:cached
+    - bundle:/usr/local/bundle
+  environment:
+    <<: *env
+    HISTFILE: /app/log/.bash_history
+    EDITOR: vi
+
+services:
+  runner:
+    <<: *backend
+    command: /bin/bash
+
+volumes:
+  bundle:

@@ -1,6 +1,6 @@
 require 'errnie/services/base'
 
-gem 'appsignal', '~> 2.10'
+gem 'appsignal', '~> 3.0'
 require 'appsignal'
 
 class Errnie

@@ -27,6 +27,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "pry"
-  spec.add_development_dependency "appsignal", "~> 2.9"
+  spec.add_development_dependency "appsignal", "~> 3.0"
   spec.add_development_dependency "bugsnag", "~> 6.0"
 end

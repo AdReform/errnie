@@ -7,7 +7,15 @@ class Errnie
   module Services
     class Appsignal < Base
       def notify(&block)
-        ::Appsignal.send_error(error, @metadata, &block)
+        if block_given?
+          ::Appsignal.send_error(error, &block)
+        elsif @metadata && !@metadata.empty?
+          ::Appsignal.send_error(error) do |notification|
+            notification.set_sample_data("custom_data", @metadata)
+          end
+        else
+          ::Appsignal.send_error(error)
+        end
       end
 
       def error

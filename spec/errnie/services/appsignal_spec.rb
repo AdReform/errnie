@@ -10,7 +10,7 @@ RSpec.describe Errnie::Services::Appsignal do
     subject { service.notify }
 
     it 'notifies via Appsignal' do
-      expect(::Appsignal).to receive(:send_error).with(error, metadata)
+      expect(::Appsignal).to receive(:send_error).with(error)
       subject
     end
   end
@@ -37,4 +37,3 @@ RSpec.describe Errnie::Services::Appsignal do
     end
   end
 end
-
